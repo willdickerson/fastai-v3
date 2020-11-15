@@ -56,8 +56,8 @@ async def analyze(request):
     prediction = learn.predict(img)[0]
     return JSONResponse({'result': str(prediction)})
 
-@app.route('/classify-url', methods=['GET'])
-async def classify-url(request):
+@app.route('/classify_url', methods=['GET'])
+async def classify_url(request):
     image_bytes = await get_bytes(request.query_params["url"])
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
