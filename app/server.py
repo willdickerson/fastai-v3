@@ -8,10 +8,10 @@ from io import BytesIO
 from fastai import *
 from fastai.vision import *
 
-export_file_url = 'https://www.dropbox.com/s/vug0ylrurffeusw/export.pkl?dl=1'
+export_file_url = 'https://drive.google.com/uc?export=download&id=1MO8ZLJ9ux3GUqOEwGz49zaGma4zbW5my'
 export_file_name = 'export.pkl'
 
-classes = ['bald','not_bald']
+classes = ['american_holly','american_sycamore', 'bald_cypress', 'bur_oak', 'cedar_elm', 'crape_myrtle', 'pecan', 'sassafras', 'scrub_holly', 'southern_red_oak', 'texas_ash', 'texas_live_oak', 'texas_mountain_laurel', 'wax_myrtle', 'yaupon_holly']
 path = Path(__file__).parent
 
 app = Starlette()
@@ -55,6 +55,14 @@ async def analyze(request):
     img = open_image(BytesIO(img_bytes))
     prediction = learn.predict(img)[0]
     return JSONResponse({'result': str(prediction)})
+
+@app.route('/classify-url', methods=['GET'])
+async def classify-url(request):
+    image_bytes = await get_bytes(request.query_params["url"])
+    img = open_image(BytesIO(img_bytes))
+    prediction = learn.predict(img)[0]
+    return JSONResponse({'result': str(prediction)})
+
 
 if __name__ == '__main__':
     if 'serve' in sys.argv: uvicorn.run(app=app, host='0.0.0.0', port=5042)
